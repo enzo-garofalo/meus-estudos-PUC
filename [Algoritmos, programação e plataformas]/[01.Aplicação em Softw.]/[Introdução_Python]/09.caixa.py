@@ -16,6 +16,8 @@ if troco == 0:
 
 print(f"\nTroco: {troco:.2f}")
 
+cinquenta = int(troco/50)
+troco = troco - (cinquenta*50)
 
 vinte = int(troco/20)
 troco = troco - (vinte*20)
@@ -29,7 +31,7 @@ troco = troco - (cinco*5)
 um = int(troco)
 
 print("Em:\n")
-
+print(f"50,00: {cinquenta} cédulas.")
 print(f"20,00: {vinte} cédulas.")
 print(f"10,00: {dez} cédulas.")
 print(f"5,00: {cinco} cédulas.")
