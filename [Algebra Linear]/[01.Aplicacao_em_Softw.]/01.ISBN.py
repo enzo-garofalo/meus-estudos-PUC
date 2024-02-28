@@ -24,12 +24,9 @@ if len(cod) != 10:
 else:
     for i in range(len(cod)):
 
-        if i == 9 and cod[i] != "x" and cod[i] != "X":
+        if i == 9:
                 vetor_resultante.append(0)
                 cod_livro = int(cod[i])
-        elif cod[i] == "x" or cod[i] == "X":
-                vetor_resultante.append(0)
-                cod_livro = 10
         else:
                 digito = int(cod[i])*(i+1)
                 vetor_resultante.append(digito)
