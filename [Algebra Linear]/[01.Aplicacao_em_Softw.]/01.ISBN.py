@@ -19,7 +19,7 @@ cod = list(cod)
 vetor_resultante = []
 
 if len(cod) != 10:
-       print(f"\n\tO código está incorreto!")
+       print(f"\n\tO código está incorreto ou incompleto!")
        exit()
 else:
     for i in range(len(cod)):
