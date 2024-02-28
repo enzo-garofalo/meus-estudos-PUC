@@ -14,10 +14,32 @@
 
 print("\tInternational Standard Book Number!")
 
-cod = input("Digite o código do livro: ")
+cod = input("\nDigite o código do livro: ")
 cod = list(cod)
-cod.remove("-")
+vetor_resultante = []
 
+if len(cod) != 10:
+       print(f"\n\tO código está incorreto!")
+       exit()
+else:
+    for i in range(len(cod)):
 
+        if i == 9 and cod[i] != "x" and cod[i] != "X":
+                vetor_resultante.append(0)
+                cod_livro = int(cod[i])
+        elif cod[i] == "x" or cod[i] == "X":
+                vetor_resultante.append(0)
+                cod_livro = 10
+        else:
+                digito = int(cod[i])*(i+1)
+                vetor_resultante.append(digito)
 
-print(f"\nCód.: {cod}")
+digito_esperado = sum(vetor_resultante) % 11
+
+print(f"\nDigito de verificação: {cod_livro}")
+print(f"Digito esperado: {digito_esperado}")
+
+if digito_esperado == cod_livro:
+       print(f"\n\tO livro é legítimo!")
+else:
+       print(f"\n\tO livro não está com o código incorreto!")
