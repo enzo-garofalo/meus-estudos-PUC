@@ -4,6 +4,7 @@
 choice = input(f"\nVocê deseja transformar um número decimal ou binário?\n")
 
 def dec_to_bin():
+    num = int(input)
 
     return 0
 
@@ -13,6 +14,7 @@ def bin_to_dec():
 
 if choice == "bin":
     print(bin_to_dec())
+
 elif choice == "dec":
     print(dec_to_bin())
 else:
