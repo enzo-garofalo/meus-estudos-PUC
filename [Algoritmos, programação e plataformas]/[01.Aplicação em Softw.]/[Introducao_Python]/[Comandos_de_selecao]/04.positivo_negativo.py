@@ -1,5 +1,6 @@
 # Faça um programa que leia se o valor é positivo, negativo ou nulo
 
+
 num = float(input("\nDigite um número: "))
 
 if num > 0:
