@@ -10,7 +10,7 @@ def int_to_bin():
     while num >= 1:
         bin.append(num % 2)
         num = num // 2
-    
+    bin.reverse()
     return bin
 
 def bin_to_dec():
