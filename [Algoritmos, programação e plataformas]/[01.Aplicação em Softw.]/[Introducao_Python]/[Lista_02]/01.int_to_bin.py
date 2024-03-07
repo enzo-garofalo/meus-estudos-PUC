@@ -1,12 +1,17 @@
 #Faça um programa que leie o número em decimal e o transforme em binário e vice-versa
 
 
-choice = input(f"\nVocê deseja transformar um número decimal ou binário?\n")
+choice = input(f"\nVocê deseja transformar um número inteiro ou binário?\n")
 
-def dec_to_bin():
-    num = int(input)
-
-    return 0
+def int_to_bin():
+    bin = []
+    num = int(input(f"\nDigite o valor inteiro: "))
+    
+    while num >= 1:
+        bin.append(num % 2)
+        num = num // 2
+    
+    return bin
 
 def bin_to_dec():
 
@@ -14,9 +19,8 @@ def bin_to_dec():
 
 if choice == "bin":
     print(bin_to_dec())
-
-elif choice == "dec":
-    print(dec_to_bin())
+elif choice == "int":
+    print(int_to_bin())
 else:
     print("Opção incorreta!")
     exit()
