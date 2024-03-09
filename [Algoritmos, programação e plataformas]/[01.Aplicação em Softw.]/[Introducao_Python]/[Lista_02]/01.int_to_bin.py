@@ -4,27 +4,27 @@ print(f"\tConversor inteiro para binário ou vice-versa!")
 choice = input(f"\nVocê deseja transformar um número inteiro ou binário?\n\nUse bin ou int: ")
 
 def int_to_bin():
-    bin = []
+    binary = []
     num = int(input(f"\nDigite o valor inteiro: "))
     
-    while num >= 1:
-        bin.append(num % 2)
-        num = num // 2
-    bin.reverse()
-    bin = ''.join(str(x) for x in bin)
-    return bin
+    # while num >= 1:
+    #     bin.append(num % 2)
+    #     num = num // 2
+    # binary.reverse()
+    # binary = ''.join(str(x) for x in binary)
+    return bin(num)
 
 def bin_to_int():
 
     bin = input(f"\nDigite o valor binário: ")
-    bin = list(bin)
-    bin.reverse()
-    num = 0
+    # bin = list(bin)
+    # bin.reverse()
+    # num = 0
 
-    for i in range(len(bin)):
-        num = num + int(bin[i])*2**i
+    # for i in range(len(bin)):
+    #     num = num + int(bin[i])*2**i
 
-    return num
+    return int(bin, 2)
 
 if choice == "bin":
     print(f"\n\tO valor em número binário é: {bin_to_int()}")
