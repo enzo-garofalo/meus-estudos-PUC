@@ -10,4 +10,3 @@ sec = sec % 3600
 print(f"Minutos: {sec // 60}")
 sec = sec % 60
 print(f"Segundos: {sec}")
-
