@@ -1,6 +1,6 @@
 #Faça um programa que leie o número em decimal e o transforme em binário e vice-versa
 
-
+print(f"\tConversor inteiro para binário ou vice-versa!")
 choice = input(f"\nVocê deseja transformar um número inteiro ou binário?\n\nUse bin ou int: ")
 
 def int_to_bin():
@@ -11,6 +11,7 @@ def int_to_bin():
         bin.append(num % 2)
         num = num // 2
     bin.reverse()
+    bin = ''.join(str(x) for x in bin)
     return bin
 
 def bin_to_int():
