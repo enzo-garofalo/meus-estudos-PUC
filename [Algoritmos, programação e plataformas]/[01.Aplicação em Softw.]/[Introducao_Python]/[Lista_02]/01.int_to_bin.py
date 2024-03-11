@@ -26,10 +26,10 @@ def bin_to_int():
 
     return int(bin, 2)
 
-if choice == "bin":
-    print(f"\n\tO valor em número binário é: {bin_to_int()}")
-elif choice == "int":
-    print(f"\n\tO valor em número inteiro é: {int_to_bin()}")
+if choice == "bin" or "binario":
+    print(f"\n\tO valor em número inteiro é: {bin_to_int()}")
+elif choice == "int" or "inteiro":
+    print(f"\n\tO valor em número binário é: {int_to_bin()}")
 else:
     print("Opção incorreta!")
     exit()
