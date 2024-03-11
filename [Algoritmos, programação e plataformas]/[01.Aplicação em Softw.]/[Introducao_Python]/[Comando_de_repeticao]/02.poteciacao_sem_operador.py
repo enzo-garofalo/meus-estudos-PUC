@@ -8,8 +8,6 @@ n = int(input("Digite a potencia: "))
 resultado = 1
 i = 1
 
-print(f"{x**n}")
-
 while i <= n:
     resultado = resultado * x
     i += 1
