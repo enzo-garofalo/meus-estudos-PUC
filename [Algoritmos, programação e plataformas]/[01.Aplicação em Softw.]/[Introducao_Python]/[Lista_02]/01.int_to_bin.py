@@ -6,7 +6,6 @@ choice = input(f"\nVocê deseja transformar um número inteiro ou binário?\n\nU
 def int_to_bin():
     binary = []
     num = int(input(f"\nDigite o valor inteiro: "))
-    
     # while num >= 1:
     #     bin.append(num % 2)
     #     num = num // 2
@@ -23,7 +22,6 @@ def bin_to_int():
 
     # for i in range(len(bin)):
     #     num = num + int(bin[i])*2**i
-
     return int(bin, 2)
 
 if choice == "bin" or "binario":
