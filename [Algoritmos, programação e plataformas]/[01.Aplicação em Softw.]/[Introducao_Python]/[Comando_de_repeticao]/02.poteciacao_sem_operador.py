@@ -3,14 +3,29 @@
 
 print(f"\tPotenciação sem operadores!")
 
-x = int(input("Digite o valor a ser elevado: "))
-n = int(input("Digite a potencia: "))
-resultado = 1
-i = 1
+base = int(input("Digite a base: "))
+exp = int(input("Digite o expoente: "))
+pot = 1
 
-while i <= n:
-    resultado = resultado * x
-    i += 1
+print(f"O Valor de {base} elevado a {exp} é ", end=' ')
+while exp > 0:
+    pot = pot * base
+    exp -= 1 
 
-print(f"O Valor de {x} elevado a {n} é {resultado}")
+print(f"{pot}")
 
+
+# <VERSÃO DA DRa Lucia!> 
+# exp = int(input("Digite o expoente: "))
+# while exp < 0:
+#     print(f"Valor negativo não permitido!")
+#     print(f"Digite outro valor")
+#     exp = int(input("Digite o expoente: "))
+
+# base = float(input("Base = "))
+# pot = 1
+# print(f"{base}^{exp} = ", end=' ')
+# while exp > 0:
+#     pot = pot*base
+#     exp -= 1
+# print(f"{pot}")

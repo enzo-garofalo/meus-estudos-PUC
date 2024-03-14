@@ -17,3 +17,5 @@ if n != 0:
     print(f"\tO valor de {n}! é {resultado}")    
 else:
     print(f"\tO valor de {n}! = 1")
+
+
