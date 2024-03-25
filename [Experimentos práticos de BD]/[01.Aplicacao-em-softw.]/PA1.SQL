@@ -26,7 +26,6 @@ CREATE TABLE LIVROS
 )
 -- 2) Alterar o campo fone_editora na tabela Editoras para o tipo number(8). 
 ALTER TABLE EDITORAS MODIFY fone_editora NUMBER(8);
-ALTER TABLE LIVROS MODIFY isbn NUMBER(15);
 -- 3) Adicionar o campo estado_editora do tipo varchar2(15) na tabela Editoras.
 ALTER TABLE EDITORAS ADD estado_editora VARCHAR2(15);
 -- 4) Remover o campo cidade_nasc da tabela Autores.
@@ -54,27 +53,3 @@ INSERT INTO Livros (isbn, titulo, id_editora, valor, num_paginas, id_autor) VALU
 INSERT INTO Livros (isbn, titulo, id_editora, valor, num_paginas, id_autor) VALUES (6688533309987, 'Banco de dados: guia prático e introdutorio', 1, 75.50, 45, 2); 
 INSERT INTO Livros (isbn, titulo, id_editora, valor, num_paginas, id_autor) VALUES (8588533878873, 'Álgebra Relacional para BD', 2, 100.00, 150, 4);
 INSERT INTO Livros (isbn, titulo, id_editora, valor, num_paginas, id_autor) VALUES (9788536908873, 'Banco de dados Não Relacional', 5, 68.29, 40, 6);
-
--- 6) Atualize o valor do livro para R$16 para todos os livros com menos de 50 páginas.
-UPDATE LIVROS 
-    SET valor = 16
-    WHERE num_paginas < 50;
-
-SELECT * FROM LIVROS;
-
--- 7) Atualize o a cidade da editora para Maringá, o estado da editora para Paraná e o fone da editora para 33445566 na editora que apresenta o id_editora 5.
-UPDATE EDITORAS
-	SET cidade_editora = 'Maringá', estado_editora = 'Paraná', fone_editora = 33445566
-	WHERE id_editora = 5;
-    
-SELECT * FROM EDITORAS
-
--- 8) Exclua todos os registros de editoras que são da cidade de Campinas.
-DELETE FROM EDITORAS WHERE cidade_editora = 'Campinas';
-
--- 9) Exclua da tabela todos os autores que nasceram antes de 1950.   
-DELETE FROM AUTORES WHERE data_nasc < TO_DATE('01/01/1950', 'DD/MM/YYYY');
-
--- 10) Explique com suas palavras porque não é possível excluir todas as editoras do estado de Paraná da tabala Editora.
-DELETE FROM EDITORAS WHERE estado_editora = 'Paraná'
--- Não é possível deletar pois o atributo "id_editora" das editoras na tabela estão sendo usadas como chave estrangeira para a tabela LIVROS.
