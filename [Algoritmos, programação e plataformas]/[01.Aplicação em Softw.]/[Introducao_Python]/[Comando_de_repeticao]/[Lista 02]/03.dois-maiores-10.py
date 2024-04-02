@@ -2,7 +2,7 @@
 # os dois maioresnúmeros digitados pelo usuário.
 
 
-print(f"\n\tOs dois maiores entre 10!")
+print(f"\n\tOs dois maiores entre 10!\n")
 maior = maior2 = 0
 
 while True:
@@ -12,11 +12,15 @@ while True:
       
       if i == 0:
         maior = maior2 = n
+      
       elif n > maior:
-        maior = maior2
-      elif maior < n:
+        maior2 = maior
+        maior = n
+
+      elif n > maior2 and n < maior:
         maior2 = n
-    print(f"\nMaior = {maior}\nMenor = {maior2} ")
+    
+    print(f"\n\tMaior = {maior:.2f} | Segundo Maior = {maior2:.2f} ")
     break
   except ValueError:
     print(f"\n\tDigite um valor válido!")
