@@ -5,23 +5,49 @@
 
 print(f"\n\tBem vindo ao zero cancela.")
 
-num  = 0
-soma = 0
-num_anterior = 0
-conta_zero = 0
+num = soma = num_anterior1 = num_anterior2 = num_anterior3 = 0
+nums_considerados = nums_desconsiderados = 0
+qtd_num = qtd_zero = 0
 
 while num >= 0:
     num = float(input("Número: "))
     
     if num > 0:
-        num_anterior = num
-        soma += num_anterior
-
+        nums_considerados += 1
+        soma += num
+        conta_zero = 0
+        
+        num_anterior3 = num_anterior2
+        num_anterior2 = num_anterior1
+        num_anterior1 = num
+        continue
     
     elif num == 0:
-        conta_zero += 1
-        soma = soma - num_anterior
+        if conta_zero == 3:
+            print("Apenas 3 zeros consecutivos.")
+            continue
+        elif conta_zero == 0:
+            soma -= num_anterior1
+            conta_zero += 1
+
+        elif conta_zero == 1:
+            soma -= num_anterior2
+            conta_zero += 1
+
+        elif conta_zero == 2:
+            soma -= num_anterior3
+            num_anterior1 = num_anterior2 = num_anterior3 = 0
+            conta_zero += 1
         
+        nums_desconsiderados += 1
+        nums_considerados -= 1
+        continue
 
 
-print(f"Soma total = {soma}")
+if nums_desconsiderados >= nums_considerados:
+    soma = 0
+    print("Soma = ", soma)
+else:
+    print("Soma = ", soma)       
+    
+    
