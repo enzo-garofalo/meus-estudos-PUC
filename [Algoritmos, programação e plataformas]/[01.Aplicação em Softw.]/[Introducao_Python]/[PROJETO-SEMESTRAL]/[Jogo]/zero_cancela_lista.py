@@ -7,9 +7,10 @@ numeros = []
 num = nums_considerados = nums_desconsiderados = 0
 
 while num >= 0:
-      
+      # Solicita ao usuário um número e armazena na variável num_atual
       num = float(input("Número: "))
 
+      # Verifica se o número digitado é maior que zero
       if num > 0:
             numeros.append(num)
             nums_considerados += 1
