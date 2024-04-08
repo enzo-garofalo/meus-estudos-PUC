@@ -36,13 +36,13 @@ while num_atual >= 0:
               # incrementa o contador de números desconsiderados e decrementa o considerado 
               nums_desconsiderados += 1
               nums_considerados -= 1
-              
+
               print(f"Nova soma: {soma} | Número desconsiderado: {num_anterior1}")
             else:
               print(f"Soma dos números adicionados: {soma}")
               print(f"Não é possisvel desconsiderar mais nenhum número da soma!\n")
             
-             # Atualiza o histórico dos três últimos números digitados
+            # Atualiza o histórico dos três últimos números digitados
             num_anterior1 = num_anterior2
             num_anterior2 = num_anterior3
             num_anterior3 = 0
