@@ -49,4 +49,4 @@ while num_atual >= 0:
           print(f"Soma dos números adicionados: {soma}")
           print(f"Não é possisvel desconsiderar nenhum número da soma!\n")
             
-print(f"\n\tZero cancela interrompido por {num_atual}\n |Soma = {soma}\n |Numeros considerados: {nums_considerados}\n |Numeros desconsiderados: {nums_desconsiderados}")
+print(f"\n\tZero cancela interrompido por {num_atual}\n |Soma = {soma}\n |Números considerados: {nums_considerados}\n |Números desconsiderados: {nums_desconsiderados}")
