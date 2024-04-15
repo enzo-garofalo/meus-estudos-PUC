@@ -5,7 +5,7 @@
 palavra1 = str(input("Digite a primeira string: "))
 palavra2 = str(input("Digite a segunda string: "))
 
-if palavra2 in palavra2:
+if palavra2 in palavra1:
     print(f"{palavra2} está em {palavra1}")
 else:
     print(f"{palavra2} não está em {palavra1}")
