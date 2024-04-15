@@ -1,7 +1,6 @@
 # Construa umprograma que leia duas strings fornecidas pelo usuário e verifique se a segunda string lida está contida no
 # final da primeira, imprimindo o resultado da verificaçã
 
-
 palavra1 = str(input("Digite a primeira string: "))
 palavra2 = str(input("Digite a segunda string: "))
 
