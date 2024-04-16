@@ -1,3 +1,8 @@
 import oracledb
+import getpass
 
-oracledb.init_oracle_client()
+
+userpwd = getpass.getpass("Enter password: ")
+
+connection = oracledb.connect(user="ENZODEV", password=userpwd,
+                              dsn="cadastron_bd/orclpdb")
