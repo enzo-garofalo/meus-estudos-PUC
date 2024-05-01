@@ -20,12 +20,18 @@ def cadastrar():
                 continue
             titulo = input("Digite o Título: ").title()
             num_autores = int(input("Digite o número de autores: "))
+            
+            autores = []
+            for autor in range(num_autores):
+                autores.append(input(f"   Digite o {autor+1}º autor: "))
+                
             preco = float(input("Digite o preço do livro: "))
         except ValueError:
             print("\n------Digite um valor válido---------")
             continue
 
-        livros[codigo]=[titulo, num_autores, preco]
+        livros[codigo]=[titulo, num_autores, autores, preco]
+        print(livros)
 
         decisao = input("\nDeseja Cadastrar outro livro?\n[SIM/NÃO]: ").upper()
         if decisao in ["S", "SIM"]:
@@ -43,46 +49,49 @@ def consultar():
         print("--------| 3- Por Preço     |----------")
         print("--------| 4- Voltar        |----------")
         print("--------------------------------------")           
-        try:
-            existe = False
-            escolha = int(input("Como deseja Buscar: "))
+ 
+        existe = False
+        escolha = int(input("Como deseja Buscar: "))
 
-            if escolha == 1:
-                busca = input("Digite o título: ").title()
-                for codigo, informacoes in livros.items():
-                    if informacoes[0] == busca:
-                        existe = True
-                        print_table(informacoes, codigo)
+        if escolha == 1:
+            busca = input("Digite o título: ").title()
+            for codigo, informacoes in livros.items():
+                if informacoes[0] == busca:
+                    existe = True
+                    print_table(informacoes, codigo)
 
-                if existe == False: print("Não há livros com esse título\n" )
+            if existe == False: print(f"Não há livros com título {busca}\n" )
 
-            elif escolha == 2:    
-                busca = input("Digite o código: ")
-                for codigo, informacoes in livros.items():
-                    if codigo == busca:
-                        existe = True
-                        print_table(informacoes, codigo)
+        elif escolha == 2:    
+            busca = input("Digite o código: ")
+            for codigo, informacoes in livros.items():
+                if codigo == busca:
+                    existe = True
+                    print_table(informacoes, codigo)
 
-                if existe == False: print("Não há livros com esse código\n" )
+            if existe == False: print(f"Não há livros com código {busca}\n" )
 
-            elif escolha == 3:
-                print("\nLivros com Preços Superiores a R$ 50.00")
-                for codigo, informacoes in livros.items():
-                    if informacoes[2] > 50:
-                        existe = True
-                        print_table(informacoes, codigo)
-                if existe == False: print("Não há livros com preço superior a R$50.00\n" )
+        elif escolha == 3:
+            print("\nLivros com Preços Superiores a R$ 50.00")
+            for codigo, informacoes in livros.items():
+                if informacoes[3] > 50:
+                    existe = True
+                    print_table(informacoes, codigo)
+            if existe == False: print("Não há livros com preço superior a R$50.00\n" )
 
-            elif escolha == 4:
-                os.system('cls')
-                menu()
-            else:
-                print("------Digite valores válidos---------")
-                continue
-        except ValueError:
+        elif escolha == 4:
+            menu()
+        else:
             os.system('cls')
             print("------Digite valores válidos---------")
             continue
+
+        decisao = input("\nDeseja fazer outra busca?\n[SIM/NÃO]: ").upper()
+        if decisao in ["S", "SIM"]:
+            consultar()
+        elif decisao in ["N", "NÃO", "NAO"]:
+            os.system('cls')
+            menu()
 
 def print_table(informacoes, codigo):
         table_consulta = PrettyTable(["Descrição", "Valor"])
@@ -90,10 +99,15 @@ def print_table(informacoes, codigo):
         table_consulta.add_row(["A. Código: ", codigo])
         table_consulta.add_row(["B. Título: ", informacoes[0]])
         table_consulta.add_row(["C. Número de autores: ", informacoes[1]])
-        table_consulta.add_row(["D. Preço: ", f"R${informacoes[2]}"])           
+
+        for autores in informacoes[2]:
+            table_consulta.add_row([f"  Autor:", autores])
+         
+        table_consulta.add_row(["D. Preço: ", f"R$ {informacoes[3]}"])           
         print(f"\n{table_consulta}\n")
 
 def menu():
+    os.system('cls')
     while True:
         try:
             print("--------------Menu-------------------")
