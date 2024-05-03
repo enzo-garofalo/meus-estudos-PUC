@@ -5,7 +5,7 @@ import string
 letras = list(string.ascii_uppercase)
 A = np.array([[3,0],[2,1]])
 Letras_num = []
-Palavra_A = str("BOLA")
+Palavra_A = str("ZZZZ")
 P1 = np.array([[],[]])
 
 for i in range(len(Palavra_A)):
