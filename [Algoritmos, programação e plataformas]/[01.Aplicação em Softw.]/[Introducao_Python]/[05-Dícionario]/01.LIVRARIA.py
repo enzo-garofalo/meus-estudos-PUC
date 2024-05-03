@@ -58,7 +58,7 @@ def consultar():
             for codigo, informacoes in livros.items():
                 if informacoes[0] == busca:
                     existe = True
-                    print_table(informacoes, codigo)
+                    construtorTables(informacoes, codigo)
 
             if existe == False: print(f"Não há livros com título {busca}\n" )
 
@@ -67,7 +67,7 @@ def consultar():
             for codigo, informacoes in livros.items():
                 if codigo == busca:
                     existe = True
-                    print_table(informacoes, codigo)
+                    construtorTables(informacoes, codigo)
 
             if existe == False: print(f"Não há livros com código {busca}\n" )
 
@@ -76,7 +76,7 @@ def consultar():
             for codigo, informacoes in livros.items():
                 if informacoes[3] > 50:
                     existe = True
-                    print_table(informacoes, codigo)
+                    construtorTables(informacoes, codigo)
             if existe == False: print("Não há livros com preço superior a R$50.00\n" )
 
         elif escolha == 4:
@@ -93,7 +93,7 @@ def consultar():
             os.system('cls')
             menu()
 
-def print_table(informacoes, codigo):
+def construtorTables(informacoes, codigo):
         table_consulta = PrettyTable(["Descrição", "Valor"])
         table_consulta.align = "l"
         table_consulta.add_row(["A. Código: ", codigo])
