@@ -22,7 +22,7 @@ print(f"Matriz da palavra {palavra} em número:")
 print(matriz_palavra_em_num)
 print("-"*50)
 
-chaveMatriz = np.array([[3, 0], [2, 1]])
+chaveMatriz = np.array([[4, 3], [1, 2]])
 criptografada = np.dot(chaveMatriz, matriz_palavra_em_num) % 26
 
 
