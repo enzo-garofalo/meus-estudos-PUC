@@ -1,159 +1,262 @@
 import os
 from prettytable import PrettyTable
+from colorama import Fore, Back, Style
+import oracledb 
 
+# Conexão com o BD e criação de um cursor para manipular o BD;
+connection = oracledb.connect(user='ENZODEV', password='1234', dsn='localhost:1521/XEPDB1')  
+# connection = oracledb.connect(user='BD15022414', password='Jbwux1', dsn='BD-ACD:1521/XE')
+cursor = connection.cursor()
 
-# Definição da função para cadastrar um novo produto
 def cadastrar_produto():
     # Limpa a tela do console (apenas Windows)
     os.system("cls")  
-    table_produto = PrettyTable()
 
-    # Mensagem de cabeçalho para o cadastro
-    print(f"\n\tCadastro de produto!")  
+    print(Fore.LIGHTBLUE_EX+'='*8+" Cadastrar Produtos "+'='*8+Style.RESET_ALL)
+
+    while True:
+        try:
+            nome = input("Nome do produto: ").title()
+            descricao = input("Descrição: ")
+            custo_compra = float(input("Custo de compra: R$ "))
+            custo_fixo = float(input("Custo fixo/administrativo [%]: "))
+            comissao_vendas = float(input("Comissão de vendas [%]: "))
+            imposto = float(input("Imposto sobre a venda [%]: "))
+            margem_lucro = float(input("Margem de lucro [%]: "))
+            if (custo_fixo + imposto + margem_lucro) >= 100:
+                print(Fore.RED+'='*5+" Digite valores válidos! "+'='*5+Style.RESET_ALL)
+                continue
+            else:
+                print(Fore.LIGHTBLUE_EX+'='*36+Style.RESET_ALL)
+                break
+        except ValueError:
+            print(Fore.RED+'='*5+" Digite valores válidos! "+'='*5+Style.RESET_ALL)
+            continue
+
+    # Insere e fixa os dados no banco
+    cursor.execute(f"""INSERT INTO PRODUTOS(nome, descricao, custo_compra, custo_fixo, comissao_vendas, imposto, margem_lucro) 
+                VALUES ('{nome}', '{descricao}', {custo_compra}, {custo_fixo}, {comissao_vendas}, {imposto}, {margem_lucro})""")
+    connection.commit()
+
+    # Retorna o código do produto - Identificador único gerado automaticamente pelo OracleDB
+    cursor.execute("SELECT MAX(codigo) FROM PRODUTOS")
+    codigo = cursor.fetchone()[0]
+
+    sql_comma = (f"""SELECT * FROM PRODUTOS WHERE codigo = {codigo}""")
     
-    # Solicita e armazena os dados do produto inseridos pelo usuário
-    global cod_prod
-    cod_prod = int(input("\nCódigo do produto: "))
-    table_produto.add_column(f"Código do Produto",[cod_prod])
+    print(Fore.GREEN+f"\n-----------------------PRODUTO CADASTRADO!------------------"+Style.RESET_ALL)
 
-    global nome_prod
-    nome_prod = input("Nome do produto: ")
-    table_produto.add_column(f"Nome",[nome_prod]) 
-
-    global desc_prod
-    desc_prod = input("Descrição: ")
-    table_produto.add_column(f"Descrição",[desc_prod]) 
-
-    global custo_prod
-    custo_prod = float(input("Custo de compra: R$ "))
-    # table_produto.add_column(f"Custo de Compra",[custo_prod]) sem uso por enquanto 09.04
-
-    global custo_fixo_prod
-    custo_fixo_prod = float(input("Custo fixo/administrativo [%]: "))
-    # table_produto.add_column(f"Custo Fixo/Administrativo",[custo_fixo_prod]) sem uso por enquanto 09.04
-
-    global comissao_vendas
-    comissao_vendas = float(input("Comissão de vendas [%]: "))
-    # table_produto.add_column(f"Comissão de vendas",[comissao_vendas]) sem uso por enquanto 09.04
-
-    global imposto_prod
-    imposto_prod = float(input("Imposto sobre a venda [%]: "))
-    # table_produto.add_column(f"Imposto sobre a venda",[imposto_prod]) sem uso por enquanto 09.04
-
-    global lucro_prod
-    lucro_prod = float(input("Margem de lucro [%]: "))
-    # table_produto.add_column(f"Margem de Lucro",[lucro_prod]) sem uso por enquanto 09.04
-
-    # Retorna os dados do produto
-    print(f"\n{table_produto}")
-
-    # Chama a função cálculo do preço de venda e margem de lucro
-    calculo_precos()
+    consultor(sql_comma)
     
-# Definição da função para calcular o preço de venda, custos e rentabilidade do produto
-def calculo_precos():
-
-    table_precos = PrettyTable(["Descrição", "Valor", "%"])
-
-    # Cálculo do preço de venda
-    preco_venda = (custo_prod) * (1 + ((custo_fixo_prod + comissao_vendas + imposto_prod + lucro_prod) / 100))
-    
-    # Cálculo dos custos
-    custos = preco_venda * ((custo_fixo_prod + comissao_vendas + imposto_prod) / 100)
-
-    # Calculo Receita bruta
-    receita_bruta = preco_venda-custo_prod
-
-    # Calculo Custo Fixo
-    custo_fixo = preco_venda*(custo_fixo_prod/100)
-
-    # Calculo Comissão de vendas
-    comissao_vendas_valor = (preco_venda*comissao_vendas)/100
-
-    # Calculo impostos
-    imposto_valor = (preco_venda*imposto_prod)/100
-
-    # Calculo Rentabilidade
-    rentabilidade = (lucro_prod*preco_venda)/100
-
-    trans_porcem = 100/preco_venda
-
-    # Verifica a margem de margem_lucro e exibe uma mensagem correspondente
-    if lucro_prod > 20:
-        margem_lucro = "Alto"
-    elif lucro_prod > 10:
-        margem_lucro = "Médio"
-    elif lucro_prod > 0:
-        margem_lucro = "Baixo"
-    elif lucro_prod == 0:
-        margem_lucro = "Nulo"
+    escolha = input("Deseja cadastrar outro produto:\n[Sim/Não]: ").upper()
+    if escolha in ['SIM', 'S']:
+        cadastrar_produto()
     else:
-        margem_lucro = "Prejuízo"
+        decisao()
 
+def consultar_produtos():
+    os.system('cls')
+    while True:
+        print(Fore.LIGHTBLUE_EX+'='*8+" Consultar Produtos "+'='*8+Style.RESET_ALL)
+        print("---------| 1- Por Código  |---------")
+        print("---------| 2- Por Nome    |---------")
+        print("---------| 3- Todos       |---------")
+        print("---------| 4- Voltar      |---------")
+        print(Fore.LIGHTBLUE_EX+'='*36+Style.RESET_ALL)
+        
+        busca = int(input("Como deseja buscar? "))
+        if busca == 1:
+            codigo = int(input("\nDigite o código do produto: "))
+            print()
+            sql_comma = (f""" SELECT * FROM PRODUTOS WHERE codigo = {codigo} """)
+            break
+        elif busca == 2:
+            nome = input("\nDigite o nome do produto: ").title()
+            print()
+            sql_comma = (f""" SELECT * FROM PRODUTOS WHERE nome = '{nome}' ORDER BY codigo """)
+            break
+        elif busca == 3:
+            print()
+            sql_comma = (f""" SELECT * FROM PRODUTOS ORDER BY codigo """)
+            break
+        elif busca == 4:
+            os.system('cls')
+            menu()
+        else:
+            os.system('cls')        
+            print(Fore.RED+'='*5+" Digite uma opção válida! "+'='*5+Style.RESET_ALL)
+            continue
 
+    print(Fore.LIGHTBLUE_EX+'='*65+Style.RESET_ALL)
+    existe = consultor(sql_comma)
+    if existe == False:
+        print('                        Produto não cadastrado!')
+    print(Fore.LIGHTBLUE_EX+'='*65+'\n'+Style.RESET_ALL)
 
+    escolha = input("Deseja buscar outro produto:\n[Sim/Não]: ").upper()
+    if escolha in ['SIM', 'S']:
+        consultar_produtos()
+    else:
+        decisao()
 
-    table_precos.add_row(["Preço venda", round(preco_venda, 2), "100"])
-    table_precos.add_row(["Custo de aquisição", round(custo_prod, 2), round(custo_prod * trans_porcem, 2)])
-    table_precos.add_row(["Receita bruta", round(receita_bruta, 2), round(receita_bruta * trans_porcem, 2)])
-    table_precos.add_row(["Custo fixo", round(custo_fixo, 2), round(custo_fixo * trans_porcem, 2)])
-    table_precos.add_row(["Comissão de vendas", round(comissao_vendas_valor, 2), round(comissao_vendas_valor * trans_porcem, 2)])
-    table_precos.add_row(["Impostos", round(imposto_valor, 2),round(imposto_valor * trans_porcem, 2)])
-    table_precos.add_row(["Outros custos", round(custos, 2), round(custos * trans_porcem, 2)])
-    table_precos.add_row(["Rentabilidade", round(rentabilidade, 2), round(rentabilidade * trans_porcem, 2)])
-    table_precos.add_row(["Margem de lucro", margem_lucro, lucro_prod])
+def consultor(sql_comma):
+    existe = False
+    for linha in cursor.execute(sql_comma):
 
-    print(f"\n{table_precos}")
+        if len(linha) > 0:
+            existe = True
+
+        table_consulta = PrettyTable(["Descrição", "Valor", "%"])
+        table_consulta.align = "l"
+
+        codigo = linha[0]
+        nome = linha[1]
+        descricao = linha[2]
+
+        custo_compra = linha[3]
+        custo_fixo = linha[4]
+        comissao_vendas = linha[5]
+        imposto = linha[6]
+        margem_lucro = linha[7]
+
+        preco_venda, receita_bruta,imposto_valor,custo_fixo_valor, comissao_vendas_valor, rentabilidade, outros_custos = calcular_preco(custo_compra,custo_fixo,comissao_vendas,imposto,margem_lucro)
+        lucro, cor = calcular_lucro(margem_lucro)
+
+        table_consulta.title = cor +f"Código: {codigo} | {nome} | {descricao}"+ Style.RESET_ALL
+
+        table_consulta.add_row(["A. Preço de venda", f"R$ {preco_venda:.2f}", f"{(preco_venda*100)/preco_venda:.2f}%"])
+        table_consulta.add_row(["B. Custo de Aquisição (Fornecedor)", f"R$ {custo_compra:.2f}", f"{(custo_compra*100)/preco_venda:.2f}%"])
+        table_consulta.add_row(["C. Receita Bruta (A-B)", f"R$ {receita_bruta:.2f}", f"{(receita_bruta*100)/preco_venda:.2f}%"])
+        table_consulta.add_row(["D. Custo Fixo/Administrativo", f"R$ {custo_fixo_valor:.2f}", f"{custo_fixo:.2f}%"])
+        table_consulta.add_row(["E. Comissão de Vendas", f"R$ {comissao_vendas_valor:.2f}", f"{comissao_vendas:.2f}%"])
+        table_consulta.add_row(["F. Impostos", f"R$ {imposto_valor:.2f}", f"{imposto:.2f}%"])
+        table_consulta.add_row(["G. Outros Custos (D+E+F)", f"R$ {outros_custos:.2f}", f"{(outros_custos*100)/preco_venda:.2f}%"])
+        table_consulta.add_row(["H. Rentabilidade", f"R$ {rentabilidade:.2f}", f"{margem_lucro:.2f}%"])
+        table_consulta.add_row(["Lucro", f"{lucro}", "-----"])
+
+        print(table_consulta)
+
+    return existe
+
+def alterar_produtos():
+    os.system('CLS')
+    print(Fore.GREEN+f"\n------------------ALTERAR----------------------"+Style.RESET_ALL) 
+    
+    sql_comma = ("""SELECT * FROM PRODUTOS ORDER BY codigo""")
+
+    todas_tabelas = input("\nDeseja mostrar as tabelas cadastradas?\n[Sim/Não]: ")
+    todas_tabelas = todas_tabelas.upper()
+    
+    if todas_tabelas == "SIM" or todas_tabelas == "S":
+        consultar_produtos(sql_comma)
+    
+    chamar_codigo = int(input(f"\nQual produto deseja alterar?\nIdenfique pelo código: "))
+         
+    selecionar_linha = input("Condição que deseja alterar: ").upper()
+    
+
+    if selecionar_linha in ['NOME', 'DESCRICAO', 'DESCRIÇÃO']:
+        if selecionar_linha == 'DESCRIÇÃO':
+            selecionar_linha = 'DESCRICAO'
+        alterar_valor = input("Digite novo valor: ")
+        cursor.execute(f"UPDATE PRODUTOS SET {selecionar_linha} = '{alterar_valor}' WHERE codigo = {chamar_codigo}")
+    else:
+        alterar_valor = float("Digite novo valor: ")
+        cursor.execute(f"UPDATE PRODUTOS SET {selecionar_linha} = {alterar_valor} WHERE codigo = {chamar_codigo}")
+
+    connection.commit()
+    
+    print(Fore.GREEN+f"\n------------------PRODUTO ALTERADO!------------------"+Style.RESET_ALL)
+    
     decisao()
 
 def decisao():
-        # Pergunta próximo passo ao usuário
+ 
     while True:
         escolha = input(f"\nVocê deseja retornar ao menu?\n[Sim/Não]: ")
         escolha = escolha.upper()
-        if escolha == "SIM":
+        if escolha in ["SIM", "S"]:
             os.system("cls")
             menu()
-        elif escolha == "NÃO" or escolha == "NAO":
-            print(f"\n\tAté mais!")
+        elif escolha in ["NÃO", "NAO", "N"]:
+            print(Fore.LIGHTBLUE_EX+'='*11+" Até logo! "+'='*12+Style.RESET_ALL)
             exit()
         else:
-            print(f"\n\tDigite um valor válido!")
+            print(Fore.RED+'='*4+" Digite uma opção válida! "+'='*4+Style.RESET_ALL)
+            continue
+        
+def calcular_preco(custo_compra, custo_fixo, comissao_vendas, imposto, margem_lucro):
+    
+    preco_venda = (custo_compra) / (1 - ((custo_fixo + comissao_vendas + imposto + margem_lucro) / 100))   
+    receita_bruta = preco_venda-custo_compra
+    imposto_valor = (preco_venda*imposto)/100
+    custo_fixo_valor = preco_venda*((custo_fixo)/100)
+    comissao_vendas_valor = (preco_venda*comissao_vendas)/100 
+    rentabilidade = (preco_venda * margem_lucro) / 100
+    outros_custos = preco_venda*(custo_fixo + comissao_vendas + imposto)/100
+
+    return preco_venda, receita_bruta,imposto_valor,custo_fixo_valor, comissao_vendas_valor, rentabilidade, outros_custos
+
+def calcular_lucro(margem_lucro):
+        
+        if margem_lucro > 20:
+            margem_lucro = Fore.GREEN+f"Alto"+Style.RESET_ALL
+            cor = Fore.GREEN
+        elif margem_lucro > 10:
+            margem_lucro =  Fore.YELLOW+f"Médio"+Style.RESET_ALL            
+            cor = Fore.YELLOW
+
+        elif margem_lucro > 0:
+            margem_lucro = Fore.LIGHTYELLOW_EX+f"Baixo"+Style.RESET_ALL
+            cor = Fore.LIGHTYELLOW_EX
+
+        elif margem_lucro == 0:
+            margem_lucro = Fore.BLACK+f"Equilíbrio"+Style.RESET_ALL
+            cor = Fore.BLACK
+
+        else:
+            margem_lucro =  Fore.RED+f"Prejuízo"+Style.RESET_ALL        
+            cor = Fore.RED
+        
+        return margem_lucro, cor
+
+def menu():
+    while True:
+        try:
+            print(Fore.LIGHTBLUE_EX+'='*13+" MENU "+'='*15+Style.RESET_ALL)
+            print("--------| 1- Cadastrar |----------")
+            print("--------| 2- Listar    |----------")
+            print("--------| 3- Alterar   |----------")
+            print("--------| 4- Excluir   |----------")
+            print("--------| 5- Sair      |----------")
+            print(Fore.LIGHTBLUE_EX+"="+'='*33+Style.RESET_ALL)
+            escolha = int(input("O que deseja fazer? "))
+            # Verifica a escolha do usuário
+            match escolha:
+                case 1:
+                    cadastrar_produto()
+                    break 
+                case 2:
+                    consultar_produtos()
+                    break
+                case 3:
+                    alterar_produtos()
+                    break
+                # case 4:
+                    # excluir_produto()
+                case 5:
+                    print()
+                    print(Fore.LIGHTBLUE_EX+'='*11+" ATÉ LOGO! "+'='*12+Style.RESET_ALL)
+                    exit()  
+                case default:
+                    os.system("cls")
+                    print(Back.RED+'='*4+" Digite uma opção válida! "+'='*4+Style.RESET_ALL)  
+                    menu()
+        except ValueError:
+            os.system('cls')
+            print(Fore.RED+'='*4+" Digite uma opção válida! "+'='*4+Style.RESET_ALL)
             continue
 
-# Função principal
-def menu():
-    # Exibe o menu e solicita a escolha do usuário
-    escolha = int(input(f"\t     MENU\n\t| 1- Cadastrar |\n\t| 2- Listar    |\n\t| 3- Alterar   |\n\t| 4- Excluir   |\n\t| 5- Sair      |\n\nO que deseja fazer? "))
-    
-    # Verifica a escolha do usuário
-    match escolha:
-        # Caso a escolha seja 1 (Cadastrar)
-        case 1:
-            cadastrar_produto()  # Chama a função para cadastrar um produto
-
-        # Caso a escolha seja 2 (Listar)
-        # case 2:
-            # consultar_dados()  
-
-        # Caso a escolha seja 3 (Alterar)
-        # case 3:
-            # alterar_dados()  
-
-        # Caso a escolha seja 4 (Excluir)
-        # case 4:
-            # excluir_dados()  
-            
-        # Caso a escolha seja 5 (Sair)
-        case 5:
-            print(f"Até mais!")  
-            exit()  # Encerra o programa
-            
-        # Caso a escolha não seja válida
-        case default:
-            os.system("cls")
-            print(f"\tDigite uma opção válida")  
-            menu()  # Chama novamente a função principal para que o usuário faça uma nova escolha
-
-# Chamada da função principal
-menu()
+if __name__ == '__main__':
+    print(Back.LIGHTBLUE_EX + "      BEM VINDO AO CADASTRON!     " + Style.RESET_ALL)
+    menu()
