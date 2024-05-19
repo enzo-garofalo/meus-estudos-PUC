@@ -5,6 +5,7 @@
 #   • Buscar um livro pelo título, imprimir todas as suas informações se ele existir
 #   • Buscar um livro pelo código, imprimir todas as suas informações se ele existir
 #   • imprimir os dados dos livros com preço superior a R$50.00. Apresente os dados no formato de uma tabela
+# _____________________________________________________________________________________________________________
 from prettytable import PrettyTable
 import os
 print("------Livraria com Dicionário------\n")
