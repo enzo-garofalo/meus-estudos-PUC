@@ -39,4 +39,4 @@ print(f"Digito esperado: {digito_esperado}")
 if digito_esperado == cod_livro:
        print(f"\n\tO livro é legítimo!")
 else:
-       print(f"\n\tO livro não está com o código incorreto!")
+       print(f"\n\tO livro não está com o código correto!")
