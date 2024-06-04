@@ -1,5 +1,5 @@
 # Determine a área de um triângulo
-print(f"\tVamos calcuar a área de um triângulo!")
+print("\tVamos calcuar a área de um triângulo!")
 base = float(input("Digite o valor da base: "))
 h = float(input("Digite o valor da altura: "))
 
