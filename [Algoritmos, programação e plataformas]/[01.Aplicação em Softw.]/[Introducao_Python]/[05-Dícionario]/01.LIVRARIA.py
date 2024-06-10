@@ -65,10 +65,9 @@ def consultar():
 
         elif escolha == 2:    
             busca = input("Digite o código: ")
-            for codigo, informacoes in livros.items():
-                if codigo == busca:
+            if busca in livros.keys():
                     existe = True
-                    construtorTables(informacoes, codigo)
+                    construtorTables(livros[busca], busca)
 
             if existe == False: print(f"Não há livros com código {busca}\n" )
 
