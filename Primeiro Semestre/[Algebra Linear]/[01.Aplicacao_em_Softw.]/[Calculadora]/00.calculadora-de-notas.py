@@ -33,7 +33,7 @@ def calcular_algebra():
 
     media_atividades = (atividade[0]+atividade[2] / 2)*0.10
     pi = boletim['Projeto Integrador'] * 0.1
-    media_final = (10*(media_testes+provas+media_atividades+pi))/9
+    media_final = (media_testes+provas+media_atividades+pi)
 
     print('Média Final:',media_final)
 

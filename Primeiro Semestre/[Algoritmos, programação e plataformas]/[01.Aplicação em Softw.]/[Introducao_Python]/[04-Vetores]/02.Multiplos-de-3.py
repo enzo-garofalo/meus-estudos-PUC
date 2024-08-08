@@ -7,8 +7,8 @@ print("\tMultiplos de 3 em lista: ")
 lista = []
 multiplos = 0
 
-for i in range(20):
-  num=int(input(f"Digite o {i+1}º número: "))
+for i in range(1, 21):
+  num=int(input(f"Digite o {i}º número: "))
   lista.append(num)
   
   if lista[i]%3 == 0:
