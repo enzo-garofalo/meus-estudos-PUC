@@ -1,7 +1,7 @@
 /*  
     Faça um algoritmo que leia uma matriz de inteiros 5x3 e
     construa sua transposta. O programa deverá imprimir as
-d   uas matrizes, a original e a transposta.
+    duas matrizes, a original e a transposta.
 */
 #define i 3
 #define j 2
