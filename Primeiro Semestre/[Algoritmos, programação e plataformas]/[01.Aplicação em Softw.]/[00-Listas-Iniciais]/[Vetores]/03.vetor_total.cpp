@@ -16,8 +16,8 @@ int get_n(){
     return n;
 }
 
-void set_val(int vec[], int n){
-    for(int pos = 0; pos < n; pos++){
+void set_val(int vec[], int len){
+    for(int pos = 0; pos < len; pos++){
         cout << "\nDigite a posicao " << pos << " Para o Vetor X: ";
         cin >> vec[pos];
     }
