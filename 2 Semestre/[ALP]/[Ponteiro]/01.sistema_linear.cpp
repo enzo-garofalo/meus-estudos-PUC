@@ -33,13 +33,13 @@ void  Multiply(double M[3][3], double b[], double sol[]){
 }
 
 void GetInv(double M[3][3], double inv[3][3]){
-    double det = 0;
-    GetDeterminant(M, &det);
+    double *det = 0;
+    GetDeterminant(M, det);
     
     double adj[3][3];
     GetAdj(M, adj);
     
-    double det_inv = 1.0/det;
+    double det_inv = 1.0/(*det);
   
     for(int i = 0; i < 3; i++){
         for(int j = 0; j< 3; j++){
